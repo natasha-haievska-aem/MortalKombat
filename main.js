@@ -1,7 +1,5 @@
 const $arena = document.querySelector('.arenas');
 const $randomButton = document.querySelector('.button');
-const $refreshButton = document.querySelector('#refresh');
-$refreshButton.disabled = true;
 
 const playerOne = {
     name: 'SCORPION',
@@ -11,7 +9,10 @@ const playerOne = {
     weapon: ['Kunai', 'Axe', 'Long Sword'],
     attack: function () {
         console.log(playerOne.name + ' Fight...');
-    }
+    },
+    changeHP: changeHP,
+    elHP: elHP,
+    renderHP: renderHP,
 };
 
 const playerTwo = {
@@ -22,16 +23,32 @@ const playerTwo = {
     weapon: ['Ice Scepter', 'Kori Blade'],
     attack: function () {
         console.log(playerTwo.name + ' Fight...');
-    }
+    },
+    changeHP: changeHP,
+    elHP: elHP,
+    renderHP: renderHP,
 };
+
+function changeHP(damageLvl, blockedDamage) {
+    !blockedDamage ? this.hp = this.hp - damageLvl : this.hp - 0;
+}
+
+function elHP() {
+    return document.querySelector('.player' + this.player + ' .life');
+}
+
+function renderHP() {
+    this.elHP().style.width = this.hp + '%';
+}
+
 
 function createElement(tag, className) {
     const $element = document.createElement(tag);
     if (className) {
         $element.classList.add(className);
-    };
+    }
     return $element;
-};
+}
 
 function createPlayer(player) {
     const $player = createElement('div', 'player' + player.player);
@@ -52,11 +69,11 @@ function createPlayer(player) {
     $character.appendChild($img);
 
     return $player;
-};
+}
 
 function damageRandomizer(maxLevel) {
     return Math.ceil(Math.random() * maxLevel);
-};
+}
 
 function choseWinner(player1, player2) {
 
@@ -67,30 +84,7 @@ function choseWinner(player1, player2) {
     } else {
         $arena.appendChild(showResult(player1.name));
     }
-};
-
-function changeHP(player, maxDamageLevel) {
-    const $playerLife = document.querySelector('.player' + player.player + ' .life');
-    player.hp -= damageRandomizer(maxDamageLevel);
-    if (player.hp < 0) {
-        player.hp = 0;
-    };
-    $playerLife.style.width = player.hp + '%';
-
-    return player;
-};
-
-function fight(player1, player2, maxDamageLevel) {
-
-    const p1 = changeHP(player1, maxDamageLevel);
-    const p2 = changeHP(player2, maxDamageLevel);
-
-    if (p1.hp === 0 || p2.hp === 0) {
-        $randomButton.disabled = true;
-        $refreshButton.disabled = false;
-        choseWinner(p1, p2);
-    };
-};
+}
 
 function showResult(name) {
     const $title = createElement('div', 'result');
@@ -99,22 +93,60 @@ function showResult(name) {
     } else {
         $title.innerText = 'its draw'
     }
-
     return $title;
-};
+}
+
+function convertNegativeToZero(num) {
+    if (num < 0) {
+        return 0;
+    } else {
+        return num;
+    }
+}
+
+function endGame(player1, player2) {
+    $randomButton.disabled = true;
+    choseWinner(player1, player2);
+    addReloadOnArena();
+}
+
+function fight(player1, player2, maxDamageLevel, player1Block, player2Block) {
+
+    player1.changeHP(damageRandomizer(maxDamageLevel), player1Block);
+    player2.changeHP(damageRandomizer(maxDamageLevel), player2Block);
+
+    player1.hp = convertNegativeToZero(player1.hp);
+    player2.hp = convertNegativeToZero(player2.hp);
+
+    player1.renderHP(elHP());
+    player2.renderHP(elHP());
+
+    if (player1.hp === 0 || player2.hp === 0) {
+        endGame(player1, player2);
+    }
+}
+
 
 $randomButton.addEventListener('click', function () {
     fight(playerOne, playerTwo, 20);
 });
 
-$refreshButton.addEventListener('click', function () {
-    window.location.reload();
-});
+function createReloadButton() {
+    const $reloadBtnWrap = createElement('div', 'reloadWrap');
+    const $reloadBtn = createElement('button', 'button');
+    $reloadBtn.innerText = 'Restart';
+    $reloadBtnWrap.appendChild($reloadBtn);
+    return $reloadBtnWrap;
+}
+
+function addReloadOnArena() {
+    $arena.appendChild(createReloadButton());
+    const $restartButton = document.querySelector('.reloadWrap');
+
+    $restartButton.addEventListener('click', function () {
+        window.location.reload();
+    });
+}
 
 $arena.appendChild(createPlayer(playerOne));
 $arena.appendChild(createPlayer(playerTwo));
-
-
-
-
-
