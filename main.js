@@ -118,8 +118,8 @@ function fight(player1, player2, maxDamageLevel, player1Block, player2Block) {
     player1.hp = convertNegativeToZero(player1.hp);
     player2.hp = convertNegativeToZero(player2.hp);
 
-    player1.renderHP(elHP());
-    player2.renderHP(elHP());
+    player1.renderHP();
+    player2.renderHP();
 
     if (player1.hp === 0 || player2.hp === 0) {
         endGame(player1, player2);
@@ -128,7 +128,7 @@ function fight(player1, player2, maxDamageLevel, player1Block, player2Block) {
 
 
 $randomButton.addEventListener('click', function () {
-    fight(playerOne, playerTwo, 20);
+    fight(playerOne, playerTwo, 20, true, false);
 });
 
 function createReloadButton() {
