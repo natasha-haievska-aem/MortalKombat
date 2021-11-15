@@ -29,8 +29,12 @@ const playerTwo = {
     renderHP: renderHP,
 };
 
-function changeHP(damageLvl, blockedDamage) {
-    !blockedDamage ? this.hp = this.hp - damageLvl : this.hp - 0;
+function changeHP(damageLvl) {
+    if (damageLvl > this.hp) {
+        this.hp = 0;
+    } else {
+        this.hp = this.hp - damageLvl;
+    }
 }
 
 function elHP() {
@@ -96,27 +100,16 @@ function showResult(name) {
     return $title;
 }
 
-function convertNegativeToZero(num) {
-    if (num < 0) {
-        return 0;
-    } else {
-        return num;
-    }
-}
-
 function endGame(player1, player2) {
     $randomButton.disabled = true;
     choseWinner(player1, player2);
     addReloadOnArena();
 }
 
-function fight(player1, player2, maxDamageLevel, player1Block, player2Block) {
+function fight(player1, player2, maxDamageLevel) {
 
-    player1.changeHP(damageRandomizer(maxDamageLevel), player1Block);
-    player2.changeHP(damageRandomizer(maxDamageLevel), player2Block);
-
-    player1.hp = convertNegativeToZero(player1.hp);
-    player2.hp = convertNegativeToZero(player2.hp);
+    player1.changeHP(damageRandomizer(maxDamageLevel));
+    player2.changeHP(damageRandomizer(maxDamageLevel));
 
     player1.renderHP();
     player2.renderHP();
@@ -126,9 +119,8 @@ function fight(player1, player2, maxDamageLevel, player1Block, player2Block) {
     }
 }
 
-
 $randomButton.addEventListener('click', function () {
-    fight(playerOne, playerTwo, 20, true, false);
+    fight(playerOne, playerTwo, 20);
 });
 
 function createReloadButton() {
