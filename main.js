@@ -29,8 +29,7 @@ function createElement(tag, className) {
     const $element = document.createElement(tag);
     if (className) {
         $element.classList.add(className);
-    }
-    ;
+    };
     return $element;
 };
 
@@ -70,21 +69,21 @@ function choseWinner(player1, player2) {
     }
 };
 
+function changeHP(player, maxDamageLevel) {
+    const $playerLife = document.querySelector('.player' + player.player + ' .life');
+    player.hp -= damageRandomizer(maxDamageLevel);
+    if (player.hp < 0) {
+        player.hp = 0;
+    };
+    $playerLife.style.width = player.hp + '%';
+
+    return player;
+};
+
 function fight(player1, player2, maxDamageLevel) {
 
-    function changeHP(player) {
-        const $playerLife = document.querySelector('.player' + player.player + ' .life');
-        player.hp -= damageRandomizer(maxDamageLevel);
-        if (player.hp < 0) {
-            player.hp = 0;
-        };
-        $playerLife.style.width = player.hp + '%';
-
-        return player;
-    };
-
-    const p1 = changeHP(player1);
-    const p2 = changeHP(player2);
+    const p1 = changeHP(player1, maxDamageLevel);
+    const p2 = changeHP(player2, maxDamageLevel);
 
     if (p1.hp === 0 || p2.hp === 0) {
         $randomButton.disabled = true;
