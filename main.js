@@ -30,11 +30,7 @@ const playerTwo = {
 };
 
 function changeHP(damageLvl) {
-    if (damageLvl > this.hp) {
-        this.hp = 0;
-    } else {
-        this.hp = this.hp - damageLvl;
-    }
+    damageLvl > this.hp ? this.hp = 0 : this.hp -=damageLvl;
 }
 
 function elHP() {
