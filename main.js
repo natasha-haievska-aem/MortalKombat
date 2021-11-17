@@ -1,5 +1,13 @@
 const $arena = document.querySelector('.arenas');
-const $randomButton = document.querySelector('.button');
+const $formFight = document.querySelector('.control')
+
+const HIT = {
+    head: 30,
+    body: 25,
+    foot: 20,
+};
+
+const ATTACK = ['head', 'body', 'foot'];
 
 const playerOne = {
     name: 'SCORPION',
@@ -7,12 +15,10 @@ const playerOne = {
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
     weapon: ['Kunai', 'Axe', 'Long Sword'],
-    attack: function () {
-        console.log(playerOne.name + ' Fight...');
-    },
-    changeHP: changeHP,
-    elHP: elHP,
-    renderHP: renderHP,
+    attack,
+    changeHP,
+    elHP,
+    renderHP,
 };
 
 const playerTwo = {
@@ -21,16 +27,18 @@ const playerTwo = {
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
     weapon: ['Ice Scepter', 'Kori Blade'],
-    attack: function () {
-        console.log(playerTwo.name + ' Fight...');
-    },
-    changeHP: changeHP,
-    elHP: elHP,
-    renderHP: renderHP,
+    attack,
+    changeHP,
+    elHP,
+    renderHP,
 };
 
+function attack() {
+    console.log(this.name + ' Fight...');
+}
+
 function changeHP(damageLvl) {
-    damageLvl > this.hp ? this.hp = 0 : this.hp -=damageLvl;
+    damageLvl > this.hp ? this.hp = 0 : this.hp -= damageLvl;
 }
 
 function elHP() {
@@ -71,8 +79,8 @@ function createPlayer(player) {
     return $player;
 }
 
-function damageRandomizer(maxLevel) {
-    return Math.ceil(Math.random() * maxLevel);
+function randomizer(maxNumber) {
+    return Math.ceil(Math.random() * maxNumber);
 }
 
 function choseWinner(player1, player2) {
@@ -97,15 +105,21 @@ function showResult(name) {
 }
 
 function endGame(player1, player2) {
-    $randomButton.disabled = true;
+    document.querySelector('.button').disabled = true;
     choseWinner(player1, player2);
     addReloadOnArena();
 }
 
-function fight(player1, player2, maxDamageLevel) {
+function defineDamage(player, enemyHit, hitValue, playerDefence) {
+    if (enemyHit !== playerDefence) {
+        player.changeHP(hitValue)
+    }
+}
 
-    player1.changeHP(damageRandomizer(maxDamageLevel));
-    player2.changeHP(damageRandomizer(maxDamageLevel));
+function fight(player1, player2, player1Action, player2Action) {
+
+    defineDamage(player1, player2Action.hit, player2Action.value, player1Action.defence);
+    defineDamage(player2, player1Action.hit, player1Action.value, player2Action.defence);
 
     player1.renderHP();
     player2.renderHP();
@@ -114,10 +128,6 @@ function fight(player1, player2, maxDamageLevel) {
         endGame(player1, player2);
     }
 }
-
-$randomButton.addEventListener('click', function () {
-    fight(playerOne, playerTwo, 20);
-});
 
 function createReloadButton() {
     const $reloadBtnWrap = createElement('div', 'reloadWrap');
@@ -138,3 +148,44 @@ function addReloadOnArena() {
 
 $arena.appendChild(createPlayer(playerOne));
 $arena.appendChild(createPlayer(playerTwo));
+
+function enemyAttack() {
+    const hit = ATTACK[randomizer(3) - 1];
+    const defence = ATTACK[randomizer(3) - 1];
+    return {
+        value: randomizer(HIT[hit]),
+        hit,
+        defence
+    };
+}
+
+let playerAction = {};
+
+function generateAttack(item, name) {
+
+    if (item.checked && item.name === name) {
+        if (name === 'hit') {
+            playerAction.value = randomizer(HIT[item.value]);
+        }
+        playerAction[name] = item.value;
+    }
+
+    return playerAction;
+}
+
+$formFight.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const enemyAction = enemyAttack();
+
+    for (let item of $formFight) {
+        generateAttack(item, 'hit');
+        generateAttack(item, 'defence');
+        item.checked = false;
+    }
+    console.log('PA', playerAction);
+    console.log('EA', enemyAction);
+
+
+    fight(playerOne, playerTwo, playerAction, enemyAction);
+
+})
