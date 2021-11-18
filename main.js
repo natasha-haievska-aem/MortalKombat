@@ -15,7 +15,8 @@ const playerOne = {
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
     weapon: ['Kunai', 'Axe', 'Long Sword'],
-    attack,
+    action: {},
+    attack: generateAttack,
     changeHP,
     elHP,
     renderHP,
@@ -27,15 +28,12 @@ const playerTwo = {
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
     weapon: ['Ice Scepter', 'Kori Blade'],
-    attack,
+    action: {},
+    attack: enemyAttack,
     changeHP,
     elHP,
     renderHP,
 };
-
-function attack() {
-    console.log(this.name + ' Fight...');
-}
 
 function changeHP(damageLvl) {
     damageLvl > this.hp ? this.hp = 0 : this.hp -= damageLvl;
@@ -110,16 +108,17 @@ function endGame(player1, player2) {
     addReloadOnArena();
 }
 
-function defineDamage(player, enemyHit, hitValue, playerDefence) {
-    if (enemyHit !== playerDefence) {
+function defineDamage(player, enemyHit, hitValue) {
+    if (enemyHit !== player.action.defence) {
         player.changeHP(hitValue)
     }
 }
 
-function fight(player1, player2, player1Action, player2Action) {
 
-    defineDamage(player1, player2Action.hit, player2Action.value, player1Action.defence);
-    defineDamage(player2, player1Action.hit, player1Action.value, player2Action.defence);
+function fight(player1, player2) {
+
+    defineDamage(player1, player2.action.hit, player2.action.hitValue);
+    defineDamage(player2, player1.action.hit, player1.action.hitValue);
 
     player1.renderHP();
     player2.renderHP();
@@ -149,43 +148,34 @@ function addReloadOnArena() {
 $arena.appendChild(createPlayer(playerOne));
 $arena.appendChild(createPlayer(playerTwo));
 
+
 function enemyAttack() {
     const hit = ATTACK[randomizer(3) - 1];
+    const hitValue = randomizer(HIT[hit]);
     const defence = ATTACK[randomizer(3) - 1];
-    return {
-        value: randomizer(HIT[hit]),
-        hit,
-        defence
-    };
+
+    this.action.hit = hit;
+    this.action.defence = defence;
+    this.action.hitValue = hitValue;
 }
 
-let playerAction = {};
-
 function generateAttack(item, name) {
-
     if (item.checked && item.name === name) {
         if (name === 'hit') {
-            playerAction.value = randomizer(HIT[item.value]);
+            this.action.hitValue = randomizer(HIT[item.value]);
         }
-        playerAction[name] = item.value;
+        this.action[name] = item.value;
     }
-
-    return playerAction;
 }
 
 $formFight.addEventListener('submit', function (e) {
     e.preventDefault();
-    const enemyAction = enemyAttack();
-
+    playerTwo.attack();
     for (let item of $formFight) {
-        generateAttack(item, 'hit');
-        generateAttack(item, 'defence');
+        playerOne.attack(item, 'hit');
+        playerOne.attack(item, 'defence');
         item.checked = false;
     }
-    console.log('PA', playerAction);
-    console.log('EA', enemyAction);
 
-
-    fight(playerOne, playerTwo, playerAction, enemyAction);
-
+    fight(playerOne, playerTwo);
 })
