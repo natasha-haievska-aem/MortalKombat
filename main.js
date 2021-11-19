@@ -47,7 +47,6 @@ function renderHP() {
     this.elHP().style.width = this.hp + '%';
 }
 
-
 function createElement(tag, className) {
     const $element = document.createElement(tag);
     if (className) {
@@ -114,7 +113,6 @@ function defineDamage(player, enemyHit, hitValue) {
     }
 }
 
-
 function fight(player1, player2) {
 
     defineDamage(player1, player2.action.hit, player2.action.hitValue);
@@ -147,7 +145,6 @@ function addReloadOnArena() {
 
 $arena.appendChild(createPlayer(playerOne));
 $arena.appendChild(createPlayer(playerTwo));
-
 
 function enemyAttack() {
     const hit = ATTACK[randomizer(3) - 1];
