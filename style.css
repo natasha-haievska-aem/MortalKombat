@@ -170,12 +170,16 @@ body {
 }
 
 .chat {
-    width: 786px;
-    height: 30vh;
+    width: 810px;
+    height: 25vh;
     background-image: url(./assets/versus.png);
     background-size: cover;
     background-position: center;
     border-top: 4px solid #f5d100;
+    padding: 6px 50px;
+    overflow-y: scroll;
+    color: white;
+    font-family: 'Mortal Kombat 3';
 }
 
 .character {
@@ -194,13 +198,15 @@ body {
 }
 
 .player2 .character img {
-    transform: scaleX(-1);
+    transform: scaleX(-1) translate(50%, 0);
 }
 
 .character img {
     height: 100%;
     position: absolute;
     bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 .fight {
