@@ -155,6 +155,7 @@ function defineDamage(player, enemy) {
     if (enemy.action.hit !== player.action.defence) {
         const hitAct = enemy.action.hitValue;
         player.changeHP(hitAct);
+        player.renderHP();
         addParagraph(generateLogs('hit', enemy.name, player.name, hitAct, player.hp))
     } else {
         addParagraph(generateLogs('defence', enemy.name, player.name));
@@ -163,10 +164,8 @@ function defineDamage(player, enemy) {
 
 function fight(player1, player2) {
     defineDamage(player1, player2);
-    defineDamage(player2, player1);
 
-    player1.renderHP();
-    player2.renderHP();
+    defineDamage(player2, player1);
 
     if (player1.hp === 0 || player2.hp === 0) {
         endGame(player1, player2);
@@ -214,9 +213,13 @@ function generateAttack(item, name) {
     }
 }
 
+function normalizeTime (num) {
+    return num >= 10 ? num : `0${num}`;
+}
+
 function dateFormatter() {
     const date = new Date();
-    return `${date.getHours()}:${date.getMinutes()<10 ? `0${date.getMinutes()}`: date.getMinutes()}`
+    return `${normalizeTime(date.getHours())}:${normalizeTime(date.getMinutes())}`
 }
 
 function createStartLog() {
@@ -249,7 +252,7 @@ function generateLogs(type, player1, player2, hitAct, player2HP) {
             )
         case 'start':
             return (
-                logs.start
+                logs[type]
                     .replace('[time]', dateFormatter)
                     .replace('[player1]', playerOne.name)
                     .replace('[player2]', playerTwo.name)
@@ -257,12 +260,12 @@ function generateLogs(type, player1, player2, hitAct, player2HP) {
 
         case 'end':
             return (
-                logs.end[randomizer(logs.end.length - 1)]
+                logs[type][randomizer(logs.end.length - 1)]
                     .replace('[playerWins]', player1)
                     .replace('[playerLose]', player2)
             )
         case 'draw':
-            return logs.draw;
+            return logs[type];
     }
 }
 
