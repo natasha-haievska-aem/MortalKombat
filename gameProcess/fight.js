@@ -1,5 +1,5 @@
-import {defineDamage} from "./servises/services.js";
-import endGame from "./end.js";
+import {defineDamage} from "./servises/fightServices.js";
+import endGame from "./servises/end.js";
 
 const fight = (player1, player2) => {
 

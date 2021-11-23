@@ -1,6 +1,5 @@
-import {playerOne, playerTwo} from "../players/players.js";
-import dateFormatter from "../utils/dateFormatter.js";
-import randomizer from "../utils/randomizer.js";
+import dateFormatter from "../../utils/dateFormatter.js";
+import randomizer from "../../utils/randomizer.js";
 
 const logs = {
     start: 'Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.',
@@ -63,8 +62,8 @@ export const generateLogs = (type, player1, player2, hitAct, player2HP) => {
             return (
                 logs[type]
                     .replace('[time]', dateFormatter)
-                    .replace('[player1]', playerOne.name)
-                    .replace('[player2]', playerTwo.name)
+                    .replace('[player1]', player1)
+                    .replace('[player2]', player2)
             )
 
         case 'end':

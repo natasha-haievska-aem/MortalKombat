@@ -1,5 +1,5 @@
-import {choseWinner} from "./servises/services.js";
-import {addReloadOnArena} from "../utils/elementCreators.js";
+import {choseWinner} from "./fightServices.js";
+import {addReloadOnArena} from "../../utils/elementCreators.js";
 
 const endGame = (player1, player2) => {
     document.querySelector('.button').disabled = true;

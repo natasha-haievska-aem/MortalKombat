@@ -1,7 +1,7 @@
 import {$arena, $formFight, $chat} from "./elements/elements.js";
 import {playerOne, playerTwo} from "./players/players.js";
 import fight from "./gameProcess/fight.js";
-import createStartLog from "./gameProcess/start.js";
+import createStartLog from "./gameProcess/servises/start.js";
 import {createElement} from "./utils/elementCreators.js";
 
 const createPlayer = ({hp, player, img, name}) => {

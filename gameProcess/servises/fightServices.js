@@ -1,6 +1,6 @@
 import {$arena} from "../../elements/elements.js";
 import {addParagraph, createElement} from "../../utils/elementCreators.js";
-import {generateLogs} from "../logGenerator.js";
+import {generateLogs} from "./logGenerator.js";
 
 const showResult = (name) => {
     const $title = createElement('div', 'result');
