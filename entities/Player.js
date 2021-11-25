@@ -10,17 +10,11 @@ export default class Player {
         this.action = action;
     };
 
-    elHP = () => {
-        return document.querySelector(`.player${this.player} .life`);
-    };
+    elHP = () => document.querySelector(`.player${this.player} .life`);
 
-    renderHP = () => {
-        this.elHP().style.width = `${this.hp}%`;
-    };
+    renderHP = () => this.elHP().style.width = `${this.hp}%`;
 
-    changeHP = (damageLvl) => {
-        damageLvl > this.hp ? this.hp = 0 : this.hp -= damageLvl;
-    };
+    changeHP = (damageLvl) => damageLvl > this.hp ? this.hp = 0 : this.hp -= damageLvl;
 
     attack = (target, actionType) => {
         if (actionType === 'hit') {
