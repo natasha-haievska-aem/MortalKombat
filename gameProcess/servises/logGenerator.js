@@ -41,36 +41,36 @@ const logs = {
     draw: 'Ничья - это тоже победа!'
 };
 
-export const generateLogs = (type, player1, player2, hitAct, player2HP) => {
+export const generateLogs = (type, player1Name, player2Name, hitAct, player2HP) => {
 
     switch (type) {
         case 'hit':
             return (
                 `${dateFormatter()} - ${
                     logs[type][randomizer(logs[type].length - 1)]
-                        .replace('[playerKick]', player1)
-                        .replace('[playerDefence]', player2)} -${hitAct} [${player2HP}/100]`
+                        .replace('[playerKick]', player1Name)
+                        .replace('[playerDefence]', player2Name)} -${hitAct} [${player2HP}/100]`
             )
         case 'defence':
             return (
                 `${dateFormatter()} - ${
                     logs[type][randomizer(logs[type].length - 1)]
-                        .replace('[playerKick]', player1)
-                        .replace('[playerDefence]', player2)}`
+                        .replace('[playerKick]', player1Name)
+                        .replace('[playerDefence]', player2Name)}`
             )
         case 'start':
             return (
                 logs[type]
                     .replace('[time]', dateFormatter)
-                    .replace('[player1]', player1)
-                    .replace('[player2]', player2)
+                    .replace('[player1]', player1Name)
+                    .replace('[player2]', player2Name)
             )
 
         case 'end':
             return (
                 logs[type][randomizer(logs.end.length - 1)]
-                    .replace('[playerWins]', player1)
-                    .replace('[playerLose]', player2)
+                    .replace('[playerWins]', player1Name)
+                    .replace('[playerLose]', player2Name)
             )
         case 'draw':
             return logs[type];
