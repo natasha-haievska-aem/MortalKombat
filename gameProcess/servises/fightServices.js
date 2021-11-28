@@ -1,6 +1,9 @@
 import {$arena} from "../../elements/elements.js";
 import {addParagraph, createElement} from "../../utils/elementCreators.js";
 import {generateLogs} from "./logGenerator.js";
+import {actionPlayer} from "../../services/requests.js";
+import fight from "../fight.js";
+
 
 const showResult = (name) => {
     const $title = createElement('div', 'result');
@@ -33,5 +36,19 @@ export const defineDamage = (player, {action: {hit, hitValue}, name}) => {
     } else {
         addParagraph(generateLogs('defence', name, player.name));
     }
+}
+
+export const generateAction = async (player, enemy, hit, defence) => {
+    const {player1: {value: playerHitValue, hit: playerHit, defence: playerDefence},
+        player2: {value: enemyHitValue, hit: enemyHit, defence: enemyDefence}} = await actionPlayer(hit, defence);
+
+    enemy.attack(enemyHit, 'hit', enemyHitValue);
+    enemy.attack(enemyDefence, 'defence');
+
+    player.attack(playerHit, 'hit', playerHitValue);
+    player.attack(playerDefence, 'defence');
+
+    await fight(player, enemy);
+
 }
 

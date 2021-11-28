@@ -21,7 +21,8 @@ export const addReloadOnArena = () => {
     const $restartButton = document.querySelector('.reloadWrap');
 
     $restartButton.addEventListener('click', function () {
-        window.location.reload();
+        window.location.pathname = 'MortalKombat/index.html';
+
     });
 }
 
