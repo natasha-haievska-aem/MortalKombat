@@ -9,7 +9,7 @@ export const getPlayerRandom = async () => {
 }
 
 export const actionPlayer = async (hit, defence) => {
-    return fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+    return fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
         method: 'POST',
         body: JSON.stringify({
             hit: hit,
