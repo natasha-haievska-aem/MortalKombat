@@ -1,5 +1,3 @@
-import randomizer from "../utils/randomizer.js";
-import {HIT} from "../constants/attackType.js";
 
 export default class Player {
     constructor({player, name, hp, img, action = {}}) {
@@ -16,9 +14,9 @@ export default class Player {
 
     changeHP = (damageLvl) => damageLvl > this.hp ? this.hp = 0 : this.hp -= damageLvl;
 
-    attack = (target, actionType) => {
+    attack = (target, actionType, value) => {
         if (actionType === 'hit') {
-            this.action.hitValue = randomizer(HIT[target]);
+            this.action.hitValue = value;
         }
         this.action[actionType] = target;
     };

@@ -1,13 +1,13 @@
 import {createElement} from "../utils/elementCreators.js";
 import Player from "./Player.js";
-import {player1, player2} from "../constants/playersData.js";
+import {getPlayers, getPlayerRandom} from "../services/requests.js";
 import {$arena, $chat, $formFight} from "../elements/elements.js";
 import createStartLog from "../gameProcess/servises/start.js";
-import {ATTACK} from "../constants/attackType.js";
-import randomizer from "../utils/randomizer.js";
-import fight from "../gameProcess/fight.js";
+// import randomizer from "../utils/randomizer.js";
+import {generateAction} from "../gameProcess/servises/fightServices.js";
 
 export default class Game {
+
 
     createPlayer = ({hp, player, img, name}) => {
         const $player = createElement('div', `player${player}`);
@@ -30,9 +30,26 @@ export default class Game {
         return $player;
     }
 
-    start = () =>{
-        const playerOne = new Player(player1);
-        const playerTwo = new Player(player2);
+    start = async () => {
+
+        // const players = await getPlayers();
+        const randomPlayer = await getPlayerRandom();
+
+        const selectedPlayer = JSON.parse(localStorage.getItem('player1'));
+
+        const playerOne =  new Player({
+            ...selectedPlayer,
+            player: 1
+        });
+
+        // const playerTwo = new Player({
+        //     ...players[randomizer(players.length) - 1],
+        //     player: 2
+        // });
+        const playerTwo = new Player({
+            ...randomPlayer,
+            player: 2
+        });
 
         $arena.appendChild(this.createPlayer(playerOne));
         $arena.appendChild(this.createPlayer(playerTwo));
@@ -40,21 +57,29 @@ export default class Game {
 
         $formFight.addEventListener('submit', function (e) {
             e.preventDefault();
-            const hit = ATTACK[randomizer(3) - 1];
-            const defence = ATTACK[randomizer(3) - 1];
 
-            playerTwo.attack(hit, 'hit');
-            playerTwo.attack(defence, 'defence');
+            let player1Hit;
+            let player1Defence;
 
             for (let item of $formFight) {
                 switch (item.name) {
-                    case 'hit': playerOne.attack(item.value, 'hit');
-                    case 'defence': playerOne.attack(item.value, 'defence');
+                    case 'hit':
+                        if (item.checked) {
+                            player1Hit = item.value;
+                        }
+                    case 'defence':
+                        if (item.checked) {
+                            player1Defence = item.value
+                        }
                 }
                 item.checked = false;
             }
 
-            fight(playerOne, playerTwo);
+            console.log(playerOne, playerTwo);
+            generateAction(playerOne, playerTwo, player1Hit, player1Defence);
+
+
+
         });
     }
 }
