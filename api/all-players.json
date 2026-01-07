@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Scorpion",
+    "hp": 100,
+    "img": "./assets/players/scorpion.gif",
+    "avatar": "./assets/avatars/scorpion.png"
+  },
+  {
+    "id": 2,
+    "name": "Sub-Zero",
+    "hp": 100,
+    "img": "./assets/players/subzero.gif",
+    "avatar": "./assets/avatars/subzero.png"
+  },
+  {
+    "id": 3,
+    "name": "Raiden",
+    "hp": 100,
+    "img": "./assets/players/raiden.gif",
+    "avatar": "./assets/avatars/raiden.png"
+  },
+  {
+    "id": 4,
+    "name": "Liu Kang",
+    "hp": 100,
+    "img": "./assets/players/liukang.gif",
+    "avatar": "./assets/avatars/liukang.png"
+  },
+  {
+    "id": 5,
+    "name": "Johnny Cage",
+    "hp": 100,
+    "img": "./assets/players/johnnycage.gif",
+    "avatar": "./assets/avatars/johnnycage.png"
+  },
+  {
+    "id": 6,
+    "name": "Sonya Blade",
+    "hp": 100,
+    "img": "./assets/players/sonya.gif",
+    "avatar": "./assets/avatars/sonya.png"
+  },
+  {
+    "id": 7,
+    "name": "Kitana",
+    "hp": 100,
+    "img": "./assets/players/kitana.gif",
+    "avatar": "./assets/avatars/kitana.png"
+  },
+  {
+    "id": 8,
+    "name": "Jade",
+    "hp": 100,
+    "img": "./assets/players/jade.gif",
+    "avatar": "./assets/avatars/jade.png"
+  },
+  {
+    "id": 9,
+    "name": "Kung Lao",
+    "hp": 100,
+    "img": "./assets/players/kunglao.gif",
+    "avatar": "./assets/avatars/kunglao.png"
+  },
+  {
+    "id": 10,
+    "name": "Shang Tsung",
+    "hp": 100,
+    "img": "./assets/players/shangtsung.gif",
+    "avatar": "./assets/avatars/shangtsung.png"
+  }
+]

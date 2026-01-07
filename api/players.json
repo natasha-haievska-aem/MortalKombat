@@ -1,0 +1,16 @@
+[
+  {
+    "id": 4,
+    "name": "Liu Kang",
+    "hp": 100,
+    "img": "./assets/players/liukang.gif",
+    "avatar": "./assets/avatars/liukang.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Johnny Cage",
+    "hp": 100,
+    "img": "./assets/players/johnnycage.gif",
+    "avatar": "./assets/avatars/johnnycage.jpg"
+  }
+]

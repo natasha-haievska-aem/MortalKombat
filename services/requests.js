@@ -1,20 +1,38 @@
+const API_BASE = './api';
+
 export const getPlayers = async () => {
-    return fetch('https://reactmarathon-api.herokuapp.com/api/mk/players')
-        .then(res => res.json())
-}
+    return fetch(`${API_BASE}/players.json`)
+        .then(res => res.json());
+};
 
 export const getPlayerRandom = async () => {
-    return fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose')
-        .then(res => res.json())
-}
+    const players = await getPlayers();
+    const randomIndex = Math.floor(Math.random() * players.length);
+    return players[randomIndex];
+};
 
 export const actionPlayer = async (hit, defence) => {
-    return fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
-        method: 'POST',
-        body: JSON.stringify({
+    // Simulate fight response locally
+    const hitTypes = ['head', 'body', 'foot'];
+    
+    // Generate random actions for enemy (player2)
+    const enemyHit = hitTypes[Math.floor(Math.random() * hitTypes.length)];
+    const enemyDefence = hitTypes[Math.floor(Math.random() * hitTypes.length)];
+    const enemyDamage = Math.floor(Math.random() * 20) + 5; // 5-25 damage
+    
+    // Player1's values come from hit/defence params, generate damage
+    const playerDamage = Math.floor(Math.random() * 20) + 5; // 5-25 damage
+    
+    return {
+        player1: {
             hit: hit,
             defence: defence,
-        })
-    })
-        .then(res => res.json());
+            value: playerDamage
+        },
+        player2: {
+            hit: enemyHit,
+            defence: enemyDefence,
+            value: enemyDamage
+        }
+    };
 };

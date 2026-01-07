@@ -19,7 +19,7 @@ const createElement = (tag, className) => {
 function createEmptyPlayerBlock() {
   const el = createElement("div", ["character", "div11", "disabled"]);
   const img = createElement("img");
-  img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
+  img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='137' height='176' viewBox='0 0 137 176'%3E%3Crect fill='%23333' width='137' height='176'/%3E%3Ctext fill='%23666' x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='20'%3E?%3C/text%3E%3C/svg%3E";
   el.appendChild(img);
   $parent.appendChild(el);
 }
@@ -27,9 +27,7 @@ function createEmptyPlayerBlock() {
 async function init() {
   localStorage.removeItem("player1");
 
-  const players = await fetch(
-    "https://reactmarathon-api.herokuapp.com/api/mk/players"
-  ).then((res) => res.json());
+    const players = await fetch('./api/players.json').then(res => res.json());
 
   let imgSrc = null;
   createEmptyPlayerBlock();
